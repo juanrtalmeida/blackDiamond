@@ -1,0 +1,8 @@
+<html>
+<html lang="en">
+<head>
+</head>
+<body style="background-color: rgb(54, 54, 54)">
+    <%= @inner_content %>
+</body>
+</html>

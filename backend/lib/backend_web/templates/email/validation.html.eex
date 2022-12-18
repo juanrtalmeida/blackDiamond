@@ -1,0 +1,10 @@
+<div style="text-align: center; font-family: 'Poppins'; color: white;">
+  <h1>Welcome to Owari, </h1>
+  <p style="font-size:32px;"><%= @name %> </p>
+  <p style="font-size:32px;"> Make yourself confortable </p>
+  <p> First things first </p>
+  <p> To fully use our application you need to validate your Email Address </p>
+  <p> To do so, please enter the code below to verify in our website</p>
+  <p style="background-color: rgb(122, 10, 197); border-radius: 5px; font-size:52px; max-width: 300px; text-align:center;margin:0 auto; padding: 20px 0"><%= @validation_number %> </p>
+  <p> If you didn't request this, please ignore this email</p>
+ </div

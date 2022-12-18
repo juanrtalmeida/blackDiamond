@@ -1,0 +1,39 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#07f17c",
+    "statusBar.foreground": "#ffffff"
+  },
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.formatDocument": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "emmet.includeLanguages": {
+    "typescript": "typescriptreact"
+  },
+  "emmet.syntaxProfiles": {
+    "tsx": {
+      "attr_quotes": "single"
+    }
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    ".log": true,
+    ".cache": true,
+    "dist": true,
+    "public": true,
+    "**/node_modules": true
+  },
+  "[css]": {
+    "editor.formatOnSave": true
+  }
+}

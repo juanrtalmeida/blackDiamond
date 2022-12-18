@@ -1,0 +1,25 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#8a38f5",
+    "statusBar.foreground": "#ffffff"
+  },
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[elixir]": {
+    "editor.formatOnSave": true
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    ".Inspect": true,
+    "**/node_modules": true
+  },
+  "prettier.singleQuote": false,
+  "[html-eex]": {
+    "editor.defaultFormatter": "JakeBecker.elixir-ls"
+  }
+}

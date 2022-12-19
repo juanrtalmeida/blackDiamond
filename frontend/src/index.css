@@ -13,6 +13,11 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
+
+	/* Color schemes */
+
+	--blue-600: #1a88e7;
+	--orange-500: #eba510;
 }
 
 body {

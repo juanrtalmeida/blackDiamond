@@ -1,3 +1,4 @@
 .className {
 	background-color: aqua;
+	composes: container from global;
 }

@@ -1,0 +1,48 @@
+.button {
+	background-color: rgb(235, 176, 15);
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+.fullContainer {
+	width: 100%;
+}
+
+.disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.primary {
+	background-color: rgb(26, 136, 231);
+}
+
+.secondary {
+	background-color: rgb(235, 176, 15);
+}
+
+.tertiary {
+	background-color: rgb(88, 88, 88);
+}
+
+.loader {
+	width: 25px;
+	height: 25px;
+	color: red;
+	animation: spin 2.3s ease infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

@@ -17,9 +17,6 @@
 	align-items: center;
 	justify-content: space-between;
 }
-.accordionContainer {
-	margin: 10px 0;
-}
 
 .contentContainer {
 	overflow: hidden;

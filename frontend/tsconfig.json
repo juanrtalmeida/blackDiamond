@@ -23,7 +23,7 @@
 			"@hooks/*": ["./src/hooks/*"]
 		}
 	},
-	"include": ["src", "**/*.tsx"],
+	"include": ["src", "**/*.tsx", "svg.d.ts", "svg.d.ts"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

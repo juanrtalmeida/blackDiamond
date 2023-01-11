@@ -10,7 +10,7 @@ defmodule Backend.Users.EmailRegister do
   end
 
   defp email_creation(user) do
-    new_email
+    new_email()
     |> to(user.email)
     |> from("OwariRagServer@owari.com.br")
     |> subject("Your new Account")

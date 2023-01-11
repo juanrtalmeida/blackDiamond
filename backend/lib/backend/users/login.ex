@@ -1,6 +1,7 @@
 defmodule Backend.Users.Login do
-  alias Backend.{Repo, User}
+  alias Backend.Repo
   alias Ecto.{Changeset}
+  alias Backend.Models.User
 
   def call(params) do
     changeset = params |> User.changeset_login()

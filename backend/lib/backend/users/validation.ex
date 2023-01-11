@@ -1,6 +1,7 @@
 defmodule Backend.Users.Validation do
-  alias Backend.{Repo, User}
+  alias Backend.{Repo}
   alias Ecto.{Changeset}
+  alias Backend.Models.User
 
   def call(params, email) do
     changeset = params |> User.changeset_validation()

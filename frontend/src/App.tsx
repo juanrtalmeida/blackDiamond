@@ -15,7 +15,17 @@ function App() {
 			<button type="button" onClick={() => navigate('/dashboard')}>
 				go to dash
 			</button>
-			<Accordion buttonContent="Accordion">This is the content</Accordion>
+			<div style={{ display:'flex' }}>
+				<div style={{ display:'flex', flexDirection:'column' }}>
+					<Accordion buttonContent="Accordion">This is the content</Accordion>
+					<Accordion buttonContent="Accordion">This is the content</Accordion>
+				</div>
+				<div style={{ display:'flex',flexDirection:'column' }}>
+					<Accordion buttonContent="Accordion">This is the content</Accordion>
+					<Accordion buttonContent="Accordion">This is the content</Accordion>
+				</div>
+			</div>
+
 			<OneTwo />
 			<Button>This is a button</Button>
 			<Router />

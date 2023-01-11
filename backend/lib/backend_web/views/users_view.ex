@@ -8,7 +8,23 @@ defmodule BackendWeb.UsersView do
 
   def render("password_wrong.json", _), do: %{message: "Password is wrong"}
 
-  def render("infos.json", %{user: user}), do: %{email: user.email, name: user.name}
+  def render("infos.json", %{user: user}),
+    do: %{
+      email: user.email,
+      name: user.name,
+      birth_date: user.birth_date,
+      id: user.id,
+      privileges: user.privilages,
+      cpf: user.cpf,
+      rg: user.rg,
+      adress_number: user.adress_number,
+      adress: user.adress,
+      contact: user.contact,
+      emergency_contact: user.emergency_contact,
+      zip_code: user.zip_code,
+      expire_date_start: user.expire_date_start,
+      expire_date_end: user.expire_date_end
+    }
 
   def render("validation_accepted.json", _), do: %{message: "Email validation accepted"}
 

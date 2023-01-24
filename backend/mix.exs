@@ -5,7 +5,7 @@ defmodule Backend.MixProject do
     [
       app: :backend,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -44,7 +44,8 @@ defmodule Backend.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:pbkdf2_elixir, "~> 2.0"},
       {:bamboo, "~> 2.2.0"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:tzdata, "~> 1.1", override: true}
     ]
   end
 

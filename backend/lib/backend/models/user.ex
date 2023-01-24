@@ -1,8 +1,11 @@
 defmodule Backend.Models.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Backend.Models.Class
 
   @primary_key {:id, :binary_id, autogenerate: true}
+
+  @timestamps_opts [type: :utc_datetime]
 
   @required_params_professor [
     :email,
@@ -44,6 +47,7 @@ defmodule Backend.Models.User do
     field :active, :boolean
     field :expire_date_start, :integer
     field :expire_date_end, :integer
+    many_to_many :classes, Class, join_through: "class_students"
     timestamps()
   end
 
@@ -73,10 +77,6 @@ defmodule Backend.Models.User do
     |> validate_required([:email, :password])
   end
 
-  @spec changeset_create(
-          :invalid
-          | %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: Ecto.Changeset.t()
   def changeset_create(params) do
     %__MODULE__{}
     |> cast(params, @required_params_user_creation)

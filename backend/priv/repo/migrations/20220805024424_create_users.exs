@@ -22,7 +22,7 @@ defmodule Backend.Repo.Migrations.CreateUsers do
       add :active, :boolean
       add :expire_date_start, :integer
       add :expire_date_end, :integer
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
     create unique_index(:users, [:email, :cpf, :rg])

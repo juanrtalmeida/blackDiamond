@@ -3,6 +3,7 @@ defmodule BackendWeb.AdminPlug do
   alias Backend.Repo
   alias Phoenix.Controller
   alias Backend.Models.User
+  alias Phoenix.Controller
 
   def init(opts), do: opts
 

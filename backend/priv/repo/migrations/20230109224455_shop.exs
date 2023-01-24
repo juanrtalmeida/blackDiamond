@@ -9,7 +9,7 @@ defmodule Backend.Repo.Migrations.Shop do
       add :price, :float
       add :stock, :integer
       add :category, :string
-      timestamps()
+      timestamps(type: :timestamptz)
     end
   end
 end

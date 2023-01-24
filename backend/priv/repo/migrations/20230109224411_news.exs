@@ -5,10 +5,9 @@ defmodule Backend.Repo.Migrations.News do
     create table(:news) do
       add :title, :string
       add :description, :string
-      add :date, :date
-      add :image, :string
-      add :author, references(:users, type: :binary_id)
-      timestamps()
+      add :image_name, :string
+      add :author_id, references(:users, type: :binary_id)
+      timestamps(type: :timestamptz)
     end
   end
 end

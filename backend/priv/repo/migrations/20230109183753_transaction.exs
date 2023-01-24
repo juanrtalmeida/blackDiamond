@@ -8,9 +8,16 @@ defmodule Backend.Repo.Migrations.Transaction do
       add :type, :string
       add :description, :string
       add :date, :date
-      add :responsable, references(:users, type: :binary_id)
+      add :responsable_id, references(:users, type: :binary_id)
       add :value, :float
-      timestamps()
+      timestamps(type: :timestamptz)
+    end
+
+    create table(:monthly_payment) do
+      add :user_id, references(:users, type: :binary_id)
+      add :transaction_id, references(:transactions, type: :binary_id)
+      add :date, :date
+      timestamps(type: :timestamptz)
     end
   end
 end

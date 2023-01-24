@@ -8,7 +8,7 @@ defmodule Backend.Repo.Migrations.Payment do
       add :date, :date
       add :responsable, references(:users, type: :binary_id)
       add :value, :float
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
     create table(:payment_students) do

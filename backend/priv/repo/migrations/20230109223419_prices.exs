@@ -6,7 +6,7 @@ defmodule Backend.Repo.Migrations.Prices do
       add :name, :string
       add :description, {:array, :string}
       add :price, :float
-      timestamps()
+      timestamps(type: :timestamptz)
     end
   end
 end

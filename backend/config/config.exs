@@ -10,6 +10,7 @@ import Config
 config :backend,
   ecto_repos: [Backend.Repo]
 
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 # Configures the endpoint
 config :backend, BackendWeb.Endpoint,
   url: [host: "localhost"],
@@ -28,7 +29,11 @@ config :backend, Backend.Mailer, adapter: Bamboo.LocalAdapter
 
 config :backend, Backend.Repo,
   migration_primary_key: [type: :binary_id],
-  migration_foreign_key: [type: :binary_id]
+  migration_foreign_key: [type: :binary_id],
+  migration_timestamps: [
+    type: :utc_datetime,
+    autogenerate: {DateTime, :now, "America/Sao_Paulo"}
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

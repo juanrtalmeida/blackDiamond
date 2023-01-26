@@ -4,19 +4,19 @@ defmodule Backend.Repo.Migrations.Transaction do
   def change do
     create table(:transactions) do
       add :user_id, references(:users, type: :binary_id)
-      add :amount, :integer
       add :type, :string
       add :description, :string
-      add :date, :date
       add :responsable_id, references(:users, type: :binary_id)
-      add :value, :float
+      add :final_value, :float
       timestamps(type: :timestamptz)
     end
 
-    create table(:monthly_payment) do
-      add :user_id, references(:users, type: :binary_id)
+    create table(:transaction_item) do
       add :transaction_id, references(:transactions, type: :binary_id)
-      add :date, :date
+      add :quantity, :integer
+      add :name, :string
+      add :value, :float
+      add :total_value, :float
       timestamps(type: :timestamptz)
     end
   end

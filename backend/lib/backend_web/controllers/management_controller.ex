@@ -1,10 +1,11 @@
 defmodule BackendWeb.ManagementController do
   use BackendWeb, :controller
-  alias Backend.Models.{MartialArts, Prices, Transaction, User}
+  alias Backend.Models.{MartialArts, Prices, Transaction, User, TransactionItem}
   alias Backend.Repo
   import Plug.Conn
   alias Phoenix.Controller
   import Ecto.Query
+  import Ecto.Changeset
 
   def create(conn, params) do
     changeset = MartialArts.create_changeset(params)
@@ -86,9 +87,9 @@ defmodule BackendWeb.ManagementController do
         |> Map.put("responsable_id", Repo.get_by(User, email: conn.assigns.email).id)
       )
 
-    with {:ok, %Transaction{} = result} <- Repo.insert(changeset) do
-      IO.inspect(result)
-
+    with {:ok, changeset_validated} <- search_for_prices(changeset, params),
+         {:ok, %Transaction{} = result} <- Repo.insert(changeset_validated),
+         {:ok} <- handle_items_inserction(params, result.id) do
       conn
       |> put_status(:created)
       |> render("new_transaction.json", %{})
@@ -119,8 +120,7 @@ defmodule BackendWeb.ManagementController do
         Repo.all(query)
         |> Repo.preload(:user)
         |> Repo.preload(:responsable)
-
-      IO.inspect(transactions)
+        |> Repo.preload(:items)
 
       enum =
         Enum.map(transactions, fn transaction ->
@@ -128,10 +128,10 @@ defmodule BackendWeb.ManagementController do
             id: transaction.id,
             user_id: transaction.user_id,
             user_name: transaction.user.name,
-            amount: transaction.amount,
             type: transaction.type,
+            items: transaction.items,
+            final_value: transactions.final_value,
             description: transaction.description,
-            value: transaction.value,
             responsable_id: transaction.responsable_id,
             responsable_name: transaction.responsable.name,
             date: transaction.inserted_at |> DateTime.add(-3, :hour) |> DateTime.to_string()
@@ -147,6 +147,79 @@ defmodule BackendWeb.ManagementController do
         |> put_status(:bad_request)
         |> Controller.put_view(BackendWeb.ErrorView)
         |> Controller.render("400.json")
+    end
+  end
+
+  defp handle_items_inserction(params, id) do
+    items_changesets =
+      Enum.map(params["items"], fn item ->
+        TransactionItem.create_item_changeset(item |> Map.put("transaction_id", id))
+      end)
+
+    case Enum.any?(items_changesets, fn item_changeset -> !item_changeset.valid? end) do
+      true ->
+        {:error, "Invalid changeset"}
+
+      false ->
+        items_changesets =
+          Enum.map(items_changesets, fn changeset ->
+            put_change(
+              changeset,
+              :total_value,
+              get_change(changeset, :value) * get_change(changeset, :quantity)
+            )
+          end)
+
+        inserction_result = Enum.map(items_changesets, fn changeset -> Repo.insert(changeset) end)
+        handle_repo_result(inserction_result)
+    end
+  end
+
+  defp handle_repo_result(results) do
+    case Enum.any?(results, fn result ->
+           {code, _} = result
+           code == :error
+         end) do
+      true ->
+        {:error, "Problem inserting items"}
+
+      false ->
+        {:ok}
+    end
+  end
+
+  defp search_for_prices(changeset, params) do
+    case params["items"] do
+      :undefined ->
+        {:error, "No items"}
+
+      nil ->
+        {:error, "No items"}
+
+      [] ->
+        {:error, "No items"}
+
+      _ ->
+        if(
+          Enum.any?(params["items"], fn item ->
+            item["value"] == nil || (item["value"] == :undefined && item["quantity"] == nil) ||
+              item["quantity"] == :undefined || !is_number(item["value"]) ||
+              !is_number(item["quantity"])
+          end)
+        ) do
+          {:error, "No value and quantity"}
+        end
+
+        changeset =
+          put_change(
+            changeset,
+            :final_value,
+            Enum.reduce(params["items"], 0, fn item, acc ->
+              acc + item["value"] * item["quantity"]
+            end)
+          )
+
+        {:ok, changeset}
     end
   end
 end

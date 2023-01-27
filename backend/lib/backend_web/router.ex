@@ -45,6 +45,9 @@ defmodule BackendWeb.Router do
     # }
     post "/prices", ManagementController, :new_price
     delete "/prices/:id", ManagementController, :delete_price
+    post "/class/create", ClassController, :handle_creation
+    post "/class/add/student", ClassController, :add_student
+    get "/class/:id", ClassController, :get_class
   end
 
   scope "/api", BackendWeb do

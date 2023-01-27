@@ -129,8 +129,17 @@ defmodule BackendWeb.ManagementController do
             user_id: transaction.user_id,
             user_name: transaction.user.name,
             type: transaction.type,
-            items: transaction.items,
-            final_value: transactions.final_value,
+            items:
+              transaction.items
+              |> Enum.map(fn item ->
+                %{
+                  name: item.name,
+                  quantity: item.quantity,
+                  value: item.value,
+                  total_value: item.total_value
+                }
+              end),
+            final_value: transaction.final_value,
             description: transaction.description,
             responsable_id: transaction.responsable_id,
             responsable_name: transaction.responsable.name,

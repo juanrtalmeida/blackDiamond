@@ -1,10 +1,21 @@
-defmodule MyApp.ClassStudent do
+defmodule Backend.Models.ClassStudent do
   use Ecto.Schema
+  alias Backend.Models.{User, Class}
 
+  import Ecto.Changeset
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   @timestamps_opts [type: :utc_datetime]
-  schema "class_student" do
-    belongs_to :student, Backend.Models.User
-    belongs_to :class, Backend.Models.Class
+
+  schema "class_students" do
+    belongs_to :user, User
+    belongs_to :class, Class
     timestamps()
+  end
+
+  def create_changeset(params) do
+    %__MODULE__{}
+    |> cast(params, [:user_id, :user_id])
+    |> validate_required([:student_id, :class_id])
   end
 end

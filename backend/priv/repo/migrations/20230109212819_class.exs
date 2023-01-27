@@ -3,11 +3,9 @@ defmodule Backend.Repo.Migrations.Class do
 
   def change do
     create table(:class) do
-      add :name, :string
       add :description, :string
-      add :creation_date, :date
       add :starting_hour, :float
-      add :responsable, references(:users, type: :binary_id, on_delete: :delete_all)
+      add :responsable_id, references(:users, type: :binary_id, on_delete: :delete_all)
       add :type, :string
       add :frequency, {:array, :string}
       timestamps(type: :timestamptz)

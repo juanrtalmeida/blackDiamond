@@ -12,21 +12,16 @@ defmodule Backend.Repo.Migrations.Class do
     end
 
     create table(:class_students) do
-      add :student_id, references(:users)
+      add :user_id, references(:users)
       add :class_id, references(:class)
       timestamps(type: :timestamptz)
     end
 
     create table(:warning) do
-      add :author, references(:users, type: :binary_id, on_delete: :delete_all)
+      add :user_id, references(:users, type: :binary_id, on_delete: :delete_all)
+      add :class_id, references(:class, type: :binary_id, on_delete: :delete_all)
       add :description, :string
-      add :date, :date
-      timestamps(type: :timestamptz)
-    end
-
-    create table(:class_warnings) do
-      add :warning_id, references(:warning)
-      add :class_id, references(:class)
+      add :title, :string
       timestamps(type: :timestamptz)
     end
 

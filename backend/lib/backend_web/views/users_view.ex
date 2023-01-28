@@ -23,7 +23,21 @@ defmodule BackendWeb.UsersView do
       emergency_contact: user.emergency_contact,
       zip_code: user.zip_code,
       expire_date_start: user.expire_date_start,
-      expire_date_end: user.expire_date_end
+      expire_date_end: user.expire_date_end,
+      checkins:
+        Enum.map(user.checkins, fn checkin ->
+          %{
+            type: checkin.class.type,
+            date:
+              NaiveDateTime.to_string(
+                checkin.inserted_at
+                |> DateTime.add(-3, :hour)
+                |> DateTime.to_naive()
+              )
+          }
+        end),
+      classes:
+        Enum.map(user.classes, fn class -> %{type: class.type, frequency: class.frequency} end)
     }
 
   def render("validation_accepted.json", _), do: %{message: "Email validation accepted"}

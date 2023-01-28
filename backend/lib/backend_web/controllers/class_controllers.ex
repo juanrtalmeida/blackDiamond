@@ -1,7 +1,7 @@
 defmodule BackendWeb.ClassController do
   use BackendWeb, :controller
-  alias Backend.Models.Class
-  alias Backend.Class.{Create, Add}
+  alias Backend.Models.{Class}
+  alias Backend.Class.{Create, Add, Checkin, Warning}
   alias Phoenix.Controller
   alias Backend.Repo
 
@@ -38,10 +38,62 @@ defmodule BackendWeb.ClassController do
 
     classes =
       class
-      |> Repo.preload([:students, :responsable])
+      |> Repo.preload([
+        :students,
+        :responsable,
+        [:warns, warns: [:user]],
+        [:checkins, checkins: [:user]]
+      ])
 
     conn
     |> put_status(:ok)
     |> render("get_class.json", class: classes)
+  end
+
+  def get_all_classes(conn, _params) do
+    classes = Repo.all(Class)
+
+    loaded_classes =
+      classes
+      |> Repo.preload([
+        :students,
+        :responsable,
+        [:warns, warns: [:user]],
+        [:checkins, checkins: [:user]]
+      ])
+
+    conn
+    |> put_status(:ok)
+    |> render("get_all_classes.json", classes: loaded_classes)
+  end
+
+  def checkin(conn, params) do
+    with {:ok, _} <- Checkin.call(params |> Map.put("user_id", conn.assigns[:user_id])) do
+      conn
+      |> put_status(:created)
+      |> json(%{message: "Checkin realizado com sucesso"})
+    else
+      :error ->
+        conn
+        |> put_status(:bad_request)
+        |> Controller.put_view(BackendWeb.ErrorView)
+        |> Controller.render("401.json")
+    end
+  end
+
+  def create_warning(conn, params) do
+    with :ok <- Warning.call(params |> Map.put("user_id", conn.assigns[:user_info].id)) do
+      IO.inspect(conn.assigns[:user_info].id)
+
+      conn
+      |> put_status(:created)
+      |> render("create_warning.json", message: "Aviso criado com sucesso")
+    else
+      :error ->
+        conn
+        |> put_status(:bad_request)
+        |> Controller.put_view(BackendWeb.ErrorView)
+        |> Controller.render("400.json")
+    end
   end
 end

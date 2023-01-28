@@ -1,7 +1,7 @@
 defmodule Backend.Models.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Backend.Models.Class
+  alias Backend.Models.{Class, Checkin}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -48,6 +48,7 @@ defmodule Backend.Models.User do
     field :expire_date_start, :integer
     field :expire_date_end, :integer
     many_to_many :classes, Class, join_through: "class_students"
+    has_many :checkins, Checkin
     timestamps()
   end
 

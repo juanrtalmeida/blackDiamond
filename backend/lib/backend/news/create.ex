@@ -1,6 +1,6 @@
 defmodule Backend.News.Create do
   alias Backend.{Repo}
-  alias Backend.Models.{News, User}
+  alias Backend.Models.{News}
 
   def call(params, conn) do
     with {:ok, binary} <- File.read(params["image"].path) do
@@ -14,7 +14,7 @@ defmodule Backend.News.Create do
       params
       |> Map.put(
         :author_id,
-        Repo.get_by(User, email: conn.assigns.email).id
+        conn.assigns[:user_info].id
       )
       |> Map.put(:image_name, file_name)
       |> Map.put(:title, params["title"])

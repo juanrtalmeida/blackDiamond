@@ -3,6 +3,8 @@ defmodule BackendWeb.AuthPlug do
 
   alias BackendWeb.Token
   alias Phoenix.Controller
+  alias Backend.Repo
+  alias Backend.Models.User
 
   @header_key "authorization"
 
@@ -11,7 +13,7 @@ defmodule BackendWeb.AuthPlug do
   def call(conn, _) do
     with ["Bearer " <> token] <- get_req_header(conn, @header_key),
          {:ok, email} <- Token.verify(token) do
-      assign(conn, :email, email)
+      assign(conn, :user_info, %{email: email, id: Repo.get_by(User, email: email).id})
     else
       _ -> handle_error(conn)
     end

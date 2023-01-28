@@ -1,7 +1,7 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
 
-  alias BackendWeb.{AuthPlug, AdminPlug}
+  alias BackendWeb.{AuthPlug, AdminPlug, ProfessorPlug}
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -13,6 +13,10 @@ defmodule BackendWeb.Router do
 
   pipeline :admin do
     plug AdminPlug
+  end
+
+  pipeline :professor do
+    plug ProfessorPlug
   end
 
   scope "/api", BackendWeb do
@@ -48,12 +52,20 @@ defmodule BackendWeb.Router do
     post "/class/create", ClassController, :handle_creation
     post "/class/add/student", ClassController, :add_student
     get "/class/:id", ClassController, :get_class
+    get "/classes", ClassController, :get_all_classes
+  end
+
+  scope "/api", BackendWeb do
+    pipe_through [:auth, :professor, :api]
+
+    post "/create/warning", ClassController, :create_warning
   end
 
   scope "/api", BackendWeb do
     pipe_through [:auth, :api]
 
     post "/create/news", NewsController, :create
+    put "/checkin/:class_id", ClassController, :checkin
 
     # required params
     # {}

@@ -1,4 +1,4 @@
-defmodule BackendWeb.AdminPlug do
+defmodule BackendWeb.ProfessorPlug do
   import Plug.Conn
   alias Backend.Repo
   alias Phoenix.Controller
@@ -21,6 +21,7 @@ defmodule BackendWeb.AdminPlug do
     case user.privilages do
       :admin -> {:ok}
       :owner -> {:ok}
+      :professor -> {:ok}
       _ -> {:fail}
     end
   end

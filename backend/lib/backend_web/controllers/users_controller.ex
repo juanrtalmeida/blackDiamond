@@ -1,6 +1,6 @@
 defmodule BackendWeb.UsersController do
   use BackendWeb, :controller
-
+  alias Backend.Repo
   alias Backend.Users.{Create, Login, Infos, EmailRegister, Validation}
   alias BackendWeb.{Token}
 
@@ -30,7 +30,7 @@ defmodule BackendWeb.UsersController do
   end
 
   def validation(conn, params) do
-    email = conn.assigns[:email]
+    email = conn.assigns[:user_info].email
 
     with {:ok} <- Validation.call(params, email) do
       conn
@@ -45,8 +45,8 @@ defmodule BackendWeb.UsersController do
   end
 
   def infos(conn, _) do
-    email = conn.assigns[:email]
-    user = Infos.infos(email)
+    email = conn.assigns[:user_info].email
+    user = Infos.infos(email) |> Repo.preload([:classes, [:checkins, checkins: [:class]]])
 
     conn
     |> put_status(:accepted)

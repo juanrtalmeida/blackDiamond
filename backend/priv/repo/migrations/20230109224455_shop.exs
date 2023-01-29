@@ -5,7 +5,7 @@ defmodule Backend.Repo.Migrations.Shop do
     create table(:shop_item) do
       add :name, :string
       add :description, :string
-      add :image, :binary
+      add :image, :string
       add :price, :float
       add :stock, :integer
       add :category, :string

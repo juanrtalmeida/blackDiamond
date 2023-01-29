@@ -53,6 +53,7 @@ defmodule BackendWeb.Router do
     post "/class/add/student", ClassController, :add_student
     get "/class/:id", ClassController, :get_class
     get "/classes", ClassController, :get_all_classes
+    post "/shop/new", ShopController, :create_item
   end
 
   scope "/api", BackendWeb do

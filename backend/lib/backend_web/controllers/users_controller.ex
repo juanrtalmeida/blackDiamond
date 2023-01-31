@@ -1,6 +1,7 @@
 defmodule BackendWeb.UsersController do
   use BackendWeb, :controller
   alias Backend.Repo
+  alias Backend.Models.User
   alias Backend.Users.{Create, Login, Infos, EmailRegister, Validation}
   alias BackendWeb.{Token}
 
@@ -51,5 +52,15 @@ defmodule BackendWeb.UsersController do
     conn
     |> put_status(:accepted)
     |> render("infos.json", user: user)
+  end
+
+  def admin_infos(conn, params) do
+    user =
+      Repo.get_by(User, id: params["id"])
+      |> Repo.preload([:classes, :month_payments, [:checkins, checkins: [:class]]])
+
+    conn
+    |> put_status(:accepted)
+    |> render("infos_admin.json", user: user)
   end
 end

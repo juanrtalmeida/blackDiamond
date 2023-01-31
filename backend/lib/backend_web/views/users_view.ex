@@ -40,6 +40,45 @@ defmodule BackendWeb.UsersView do
         Enum.map(user.classes, fn class -> %{type: class.type, frequency: class.frequency} end)
     }
 
+  def render("infos_admin.json", %{user: user}) do
+    %{
+      expire_date_end: user.expire_date_end,
+      expire_date_start: user.expire_date_start,
+      email: user.email,
+      name: user.name,
+      birth_date: user.birth_date,
+      id: user.id,
+      privileges: user.privilages,
+      cpf: user.cpf,
+      rg: user.rg,
+      adress_number: user.adress_number,
+      adress: user.adress,
+      contact: user.contact,
+      emergency_contact: user.emergency_contact,
+      zip_code: user.zip_code,
+      expire_date_start: user.expire_date_start,
+      expire_date_end: user.expire_date_end,
+      checkins:
+        Enum.map(user.checkins, fn checkin ->
+          %{
+            type: checkin.class.type,
+            date:
+              NaiveDateTime.to_string(
+                checkin.inserted_at
+                |> DateTime.add(-3, :hour)
+                |> DateTime.to_naive()
+              )
+          }
+        end),
+      classes:
+        Enum.map(user.classes, fn class -> %{type: class.type, frequency: class.frequency} end),
+      monthly_payment:
+        Enum.map(user.month_payments, fn payment ->
+          %{paid: payment.paid, year: payment.year, month: payment.month}
+        end)
+    }
+  end
+
   def render("validation_accepted.json", _), do: %{message: "Email validation accepted"}
 
   def render("validation_fail.json", _), do: %{message: "Email validation unaccepted"}

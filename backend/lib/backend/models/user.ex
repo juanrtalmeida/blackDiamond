@@ -84,6 +84,7 @@ defmodule Backend.Models.User do
     |> cast(params, @required_params_user_creation)
     |> handle_hash()
     |> validate_required(@required_params_user_creation)
+    |> put_change(:privilages, :student)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:name, min: 2)
     |> put_change(:validated, false)
@@ -103,5 +104,13 @@ defmodule Backend.Models.User do
 
   defp make_hash(password) do
     Pbkdf2.add_hash(password) |> Map.get(:password_hash)
+  end
+
+  def changeset_create_admin(params, privileges) do
+    %__MODULE__{}
+    |> cast(params, [:name, :email, :password])
+    |> handle_hash()
+    |> validate_required([:name, :email, :password])
+    |> put_change(:privilages, privileges)
   end
 end

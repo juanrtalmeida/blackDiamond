@@ -8,7 +8,6 @@ defmodule Backend.Models.Class do
   @timestamps_opts [type: :utc_datetime]
 
   schema "class" do
-    field :name, :string
     field :description, :string
     field :starting_hour, :float
     belongs_to :responsable, User

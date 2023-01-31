@@ -21,6 +21,7 @@ defmodule BackendWeb.Router do
 
   scope "/api", BackendWeb do
     pipe_through [:auth, :admin, :api]
+    get "/infos/:id", UsersController, :admin_infos
 
     post "/create-professor", ProfessorController, :create
     post "/create-martial-art", ManagementController, :create

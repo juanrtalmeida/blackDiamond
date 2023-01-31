@@ -1,5 +1,7 @@
 defmodule Backend.Repo.Migrations.CreateUsers do
   use Ecto.Migration
+  alias Backend.Repo
+  alias Backend.Models.User
 
   def change do
     create table(:users) do

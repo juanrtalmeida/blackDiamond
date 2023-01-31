@@ -39,7 +39,7 @@ defmodule BackendWeb.ClassController do
     classes =
       class
       |> Repo.preload([
-        :students,
+        [:students, students: [:month_payments]],
         :responsable,
         [:warns, warns: [:user]],
         [:checkins, checkins: [:user]]
@@ -56,7 +56,7 @@ defmodule BackendWeb.ClassController do
     loaded_classes =
       classes
       |> Repo.preload([
-        :students,
+        [:students, students: [:month_payments]],
         :responsable,
         [:warns, warns: [:user]],
         [:checkins, checkins: [:user]]

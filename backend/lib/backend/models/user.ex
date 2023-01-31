@@ -1,7 +1,7 @@
 defmodule Backend.Models.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Backend.Models.{Class, Checkin}
+  alias Backend.Models.{Class, Checkin, MonthPayment}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -30,7 +30,7 @@ defmodule Backend.Models.User do
     field :password, :string
     field :validated, :boolean
     field :validation_number, :integer
-    field :privilages, Ecto.Enum, values: [:admin, :user, :owner, :professor]
+    field :privilages, Ecto.Enum, values: [:admin, :student, :owner, :professor]
     field :cpf, :string
     field :rg, :string
     field :adress, :string
@@ -38,6 +38,7 @@ defmodule Backend.Models.User do
     field :adress_complement, :string
     field :contact, :string
     field :emergency_contact, :string
+    has_many :month_payments, MonthPayment
 
     field :sex_orientation, Ecto.Enum,
       values: [:non_binary, :cis_man, :cis_woman, :trans_man, :trans_woman]

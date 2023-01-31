@@ -115,6 +115,7 @@ defmodule BackendWeb.Router do
 
     get "/martial-arts", ManagementController, :show
     get "/prices", ManagementController, :show_prices
+    get "/shop", ShopController, :get_products
     match :*, "/*path", ErrorController, :not_found
   end
 

@@ -1,6 +1,8 @@
 defmodule BackendWeb.ClassView do
   use BackendWeb, :view
 
+  alias Backend.Helpers.PaymentHandler
+
   def render("get_class.json", %{class: class}) do
     %{
       id: class.id,
@@ -35,7 +37,15 @@ defmodule BackendWeb.ClassView do
               )
           }
         end),
-      students: Enum.map(class.students, fn student -> student.name end),
+      students:
+        Enum.map(class.students, fn student ->
+          %{
+            name: student.name,
+            expire_starting_date: student.expire_date_start,
+            expire_ending_date: student.expire_date_end,
+            paid: PaymentHandler.verify_payment(student.month_payments, student.id)
+          }
+        end),
       frequency: class.frequency
     }
   end

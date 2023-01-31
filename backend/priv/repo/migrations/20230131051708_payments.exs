@@ -1,4 +1,4 @@
-defmodule Backend.Repo.Migrations.Payment do
+defmodule Backend.Repo.Migrations.Payments do
   use Ecto.Migration
 
   def change do

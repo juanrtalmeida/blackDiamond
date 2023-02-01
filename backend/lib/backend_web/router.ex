@@ -51,6 +51,7 @@ defmodule BackendWeb.Router do
     post "/prices", ManagementController, :new_price
     delete "/prices/:id", ManagementController, :delete_price
     post "/class/create", ClassController, :handle_creation
+    put "/class/:id", ClassController, :edit_class
     post "/class/add/student", ClassController, :add_student
     get "/class/:id", ClassController, :get_class
     get "/classes", ClassController, :get_all_classes

@@ -24,4 +24,9 @@ defmodule Backend.Models.Class do
     |> cast(params, [:starting_hour, :description, :responsable_id, :type, :frequency])
     |> validate_required([:starting_hour, :description, :responsable_id, :type, :frequency])
   end
+
+  def edit_changeset(params) do
+    %__MODULE__{}
+    |> cast(params, [:starting_hour, :description, :responsable_id, :type, :frequency])
+  end
 end

@@ -1,5 +1,6 @@
 defmodule BackendWeb.ClassController do
   use BackendWeb, :controller
+  alias Ecto.Changeset
   alias Backend.Models.{Class}
   alias Backend.Class.{Create, Add, Checkin, Warning}
   alias Phoenix.Controller
@@ -95,5 +96,20 @@ defmodule BackendWeb.ClassController do
         |> Controller.put_view(BackendWeb.ErrorView)
         |> Controller.render("400.json")
     end
+  end
+
+  def edit_class(conn, params) do
+    class = Repo.get_by(Class, id: params["id"])
+
+    others =
+      Map.take(params, ["responsable_id", "starting_hour", "type", "frequency", "description"])
+      |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+
+    Changeset.change(class, others)
+    |> Repo.update!()
+
+    conn
+    |> put_status(:accepted)
+    |> render("edit_class.json", message: "Turma editada com sucesso")
   end
 end

@@ -92,4 +92,5 @@ defmodule BackendWeb.ClassView do
   end
 
   def render("create_warning.json", %{message: message}), do: %{message: message}
+  def render("edit_class.json", %{message: message}), do: %{message: message}
 end

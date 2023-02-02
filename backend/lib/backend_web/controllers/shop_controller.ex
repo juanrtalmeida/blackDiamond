@@ -1,5 +1,6 @@
 defmodule BackendWeb.ShopController do
   use BackendWeb, :controller
+  alias Ecto.Changeset
   alias Backend.Shop.Create
   alias Backend.Models.ShopItem
   alias Phoenix.Controller
@@ -23,5 +24,20 @@ defmodule BackendWeb.ShopController do
     conn
     |> put_status(:ok)
     |> render("get_products.json", products: Repo.all(ShopItem))
+  end
+
+  def change_item(conn, params) do
+    class = Repo.get_by(Class, id: params["id"])
+
+    change_params =
+      Map.take(params, ["name", "description", "price", "stock"])
+      |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+
+    Changeset.change(class, change_params)
+    |> Repo.update()
+
+    conn
+    |> put_status(:ok)
+    |> render("change_item.json", message: "Item alterado com sucesso")
   end
 end

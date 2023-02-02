@@ -56,6 +56,7 @@ defmodule BackendWeb.Router do
     get "/class/:id", ClassController, :get_class
     get "/classes", ClassController, :get_all_classes
     post "/shop/new", ShopController, :create_item
+    put "/shop/:id", ShopController, :change_item
   end
 
   scope "/api", BackendWeb do

@@ -1,5 +1,6 @@
 defmodule BackendWeb.ProfessorController do
   use BackendWeb, :controller
+  alias Backend.Helpers.Reports
   alias Backend.Users.Create
 
   def create(conn, params) do

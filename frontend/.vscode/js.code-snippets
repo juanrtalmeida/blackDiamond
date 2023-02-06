@@ -1,0 +1,29 @@
+{
+	"classnames import": {
+		"prefix": "cn",
+		"body": ["import cn from 'classnames'", "const ${1:className} = cn(${2:s.${3:className}})"]
+	},
+
+	"styles for current component import": {
+		"prefix": "ss",
+		"body": ["import s from './${TM_FILENAME_BASE}.module.css'"]
+	},
+	"initialize react component": {
+		"prefix": "rc",
+		"body": [
+			"import React from 'react'",
+			"export function ${TM_FILENAME_BASE}() {",
+			"  return (",
+			"    <h1>",
+			"      {t('${TM_FILENAME_BASE}')}",
+			"    </h1>",
+			"  )",
+			"}"
+		]
+	},
+	"useState": {
+		"prefix": "st",
+		"body": "const [${1}, set${1/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}] = useState(${0})",
+		"description": "use state but it camel cases"
+	}
+}

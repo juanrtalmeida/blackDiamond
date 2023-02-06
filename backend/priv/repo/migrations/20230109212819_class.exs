@@ -3,7 +3,7 @@ defmodule Backend.Repo.Migrations.Class do
 
   def change do
     create table(:class) do
-      add :description, :string
+      add :description, :text
       add :starting_hour, :float
       add :responsable_id, references(:users, type: :binary_id, on_delete: :delete_all)
       add :type, :string
@@ -20,7 +20,7 @@ defmodule Backend.Repo.Migrations.Class do
     create table(:warning) do
       add :user_id, references(:users, type: :binary_id, on_delete: :delete_all)
       add :class_id, references(:class, type: :binary_id, on_delete: :delete_all)
-      add :description, :string
+      add :description, :text
       add :title, :string
       timestamps(type: :timestamptz)
     end
@@ -28,7 +28,6 @@ defmodule Backend.Repo.Migrations.Class do
     create table(:check_in) do
       add :student_id, references(:users)
       add :class_id, references(:class)
-      add :date, :date
       timestamps(type: :timestamptz)
     end
 

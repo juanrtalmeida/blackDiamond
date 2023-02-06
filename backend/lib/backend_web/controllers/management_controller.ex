@@ -1,6 +1,7 @@
 defmodule BackendWeb.ManagementController do
   use BackendWeb, :controller
   alias Backend.Models.{MartialArts, Prices, Transaction, User, TransactionItem}
+  alias Backend.Helpers.Reports
   alias Backend.Repo
   import Plug.Conn
   alias Phoenix.Controller
@@ -9,6 +10,7 @@ defmodule BackendWeb.ManagementController do
 
   def create(conn, params) do
     changeset = MartialArts.create_changeset(params)
+    Reports.create_creation_report("Arte Marcial", changeset.changes, conn)
 
     with {:ok, %MartialArts{}} <- Repo.insert(changeset) do
       conn

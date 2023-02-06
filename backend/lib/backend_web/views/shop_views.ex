@@ -5,6 +5,9 @@ defmodule BackendWeb.ShopView do
     %{message: message}
   end
 
+  def render("change_item.json", %{message: _message}), do: ""
+  def render("delete_item.json", %{message: _message}), do: []
+
   def render("get_products.json", %{products: item}) do
     %{
       item:

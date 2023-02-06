@@ -69,7 +69,7 @@ defmodule BackendWeb.ClassController do
   end
 
   def checkin(conn, params) do
-    with {:ok, _} <- Checkin.call(params |> Map.put("user_id", conn.assigns[:user_id])) do
+    with {:ok, _} <- Checkin.call(params |> Map.put("user_id", conn.assigns[:user_info].id)) do
       conn
       |> put_status(:created)
       |> json(%{message: "Checkin realizado com sucesso"})
@@ -84,8 +84,6 @@ defmodule BackendWeb.ClassController do
 
   def create_warning(conn, params) do
     with :ok <- Warning.call(params |> Map.put("user_id", conn.assigns[:user_info].id)) do
-      IO.inspect(conn.assigns[:user_info].id)
-
       conn
       |> put_status(:created)
       |> render("create_warning.json", message: "Aviso criado com sucesso")

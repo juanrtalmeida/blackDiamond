@@ -1,11 +1,17 @@
 import { View, Text, TouchableOpacity, Image, Button } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from "@react-navigation/stack";
 import { colors } from "../assets/styles/colors";
 
 function HomeScreenOne() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <View
       style={{
@@ -34,9 +40,13 @@ function HomeScreenTwo() {
     </View>
   );
 }
+export type RootStackParamList = {
+  HomeOne: undefined;
+  HomeTwo: undefined;
+};
 
 function HomeScreen() {
-  const stack = createStackNavigator();
+  const stack = createStackNavigator<RootStackParamList>();
   return (
     <stack.Navigator>
       <stack.Screen
@@ -61,12 +71,11 @@ function SettingsScreen() {
   );
 }
 
-function MyTabBar({ state, descriptors, navigation }) {
+function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
     <View style={{ flexDirection: "row" }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
-        const TabIcon = options.tabBarIcon;
 
         const label =
           options.tabBarLabel !== undefined
@@ -81,6 +90,7 @@ function MyTabBar({ state, descriptors, navigation }) {
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,
+            canPreventDefault: true,
           });
 
           if (!isFocused && !event.defaultPrevented) {
@@ -110,13 +120,15 @@ function MyTabBar({ state, descriptors, navigation }) {
               flexDirection: "column",
               margin: 10,
             }}>
-            {TabIcon ? <TabIcon /> : null}
+            {options.tabBarIcon
+              ? options.tabBarIcon({ color: "", focused: isFocused, size: 0 })
+              : null}
             <Text
               style={{
                 color: isFocused ? colors.secondary : colors.quinary,
                 fontFamily: "Montserrat-Medium",
               }}>
-              {label}
+              {route.name}
             </Text>
           </TouchableOpacity>
         );
@@ -138,8 +150,7 @@ export function TabRouter() {
       <Tab.Screen
         options={{
           headerShown: false,
-          tabBarOptions: { showIcon: true },
-          tabBarIcon: ({ tintColor }) => {
+          tabBarIcon: () => {
             return (
               <View style={{ width: 15, height: 15 }}>
                 <Image

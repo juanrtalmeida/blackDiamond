@@ -23,7 +23,9 @@ export function Slider() {
     <View>
       <FlatList
         data={data}
-        renderItem={({ item }) => <SlideItem item={item} />}
+        renderItem={({ item }) => (
+          <SlideItem image={item.image} title={item.title} />
+        )}
         horizontal
       />
     </View>

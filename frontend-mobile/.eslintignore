@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+jest.config.js
+package.json
+package-lock.json
+tsconfig.json
+.swcrc
+.gitignore
+.prettierrc
+.vscode
+babel.config.js

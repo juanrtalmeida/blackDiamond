@@ -1,10 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import * as Splash from 'expo-splash-screen'
-import { useCallback } from 'react'
-import { SafeAreaView, StyleSheet, View, Platform, StatusBar } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Platform, StatusBar, Image } from 'react-native'
 import { colors } from './src/assets/styles/colors'
 import { TabRouter } from './src/routes/router'
 import { Slider } from './src/components/slider/slider'
@@ -12,13 +11,17 @@ import { FirstTimeUserContext } from './src/contexts/first_time'
 import { UserProvider } from './src/contexts/User/UserProvider'
 import { TokenContext } from './src/contexts/token'
 import { LoginOrRegisterRoute } from './src/routes/login/login'
+import Lottie from 'lottie-react-native'
 
 export default function App() {
 	const [isFirstTime, setIsFirstTime] = useState(true)
 	const [hasToken, setHasToken] = useState(false)
+	const [isLoadingApp, setIsLoadingApp] = useState(true)
+	const lottieRef = useRef<Lottie>(null)
 
 	useEffect(() => {
 		async function loadStorageData() {
+			await Splash.hideAsync()
 			try {
 				const isFirstTimeLocal = await AsyncStorage.getItem('firstTime')
 				const token = await AsyncStorage.getItem('token')
@@ -41,14 +44,25 @@ export default function App() {
 		'Montserrat-Regular': require('./src/assets/fonts/Montserrat-Regular.ttf')
 	})
 
-	const onLayoutRootView = useCallback(async () => {
-		if (fontsLoaded) {
-			await Splash.hideAsync()
-		}
-	}, [fontsLoaded])
-
-	if (!fontsLoaded) {
-		return null
+	if (isLoadingApp) {
+		return (
+			<View style={{ flex: 1, backgroundColor: colors.primary }}>
+				<Lottie
+					ref={lottieRef}
+					onAnimationFinish={() => {
+						if (fontsLoaded) {
+							setIsLoadingApp(false)
+						} else {
+							lottieRef.current?.play()
+						}
+					}}
+					source={require('./src/assets/animations/85699-loading-15.json')}
+					autoPlay
+					loop={false}
+				/>
+				<Image style={{ width: 400 }} resizeMode="contain" source={require('./src/assets/images/blackDiamond.png')} />
+			</View>
+		)
 	}
 
 	if (isFirstTime) {
@@ -70,7 +84,7 @@ export default function App() {
 	if (!hasToken) {
 		return (
 			<TokenContext.Provider value={{ hasToken, setHasToken }}>
-				<View style={styles.container} onLayout={onLayoutRootView}>
+				<View style={styles.container}>
 					<NavigationContainer
 						theme={{
 							colors: {
@@ -94,7 +108,7 @@ export default function App() {
 	return (
 		<TokenContext.Provider value={{ hasToken, setHasToken }}>
 			<UserProvider>
-				<View style={styles.container} onLayout={onLayoutRootView}>
+				<View style={styles.container}>
 					<NavigationContainer
 						theme={{
 							colors: {

@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack'
 
 import background from '../../assets/images/login-background.png'
-import { ImageBackground, Platform, StatusBar, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
+import { ImageBackground, Platform, StatusBar, Text, View, SafeAreaView } from 'react-native'
 import { colors } from '../../assets/styles/colors'
 import { useApi } from '../../hooks/useApi'
+import { useNavigation } from '@react-navigation/native'
+import { Button } from '../../components/Button/button'
 
 export type RootStackParamList = {
 	Choose: undefined
@@ -42,6 +44,7 @@ function Login() {
 }
 
 function Choose() {
+	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 	return (
 		<SafeAreaView
 			style={{
@@ -55,33 +58,12 @@ function Choose() {
 				resizeMode="cover"
 				style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
 			>
-				<TouchableOpacity
-					activeOpacity={0.9}
-					style={{
-						backgroundColor: colors.secondary,
-						width: 100,
-						paddingVertical: 20,
-						justifyContent: 'center',
-						alignItems: 'center',
-						borderRadius: 10
-					}}
-				>
-					<Text>Entrar</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					activeOpacity={0.9}
-					style={{
-						backgroundColor: colors.secondary,
-						margin: 20,
-						width: 100,
-						paddingVertical: 20,
-						justifyContent: 'center',
-						alignItems: 'center',
-						borderRadius: 10
-					}}
-				>
-					<Text>Cadastrar</Text>
-				</TouchableOpacity>
+				<Button
+					style={{ marginVertical: 30, backgroundColor: colors.quaternary }}
+					title="Login"
+					onPress={() => navigation.navigate('Login')}
+				/>
+				<Button style={{ marginBottom: 30 }} title="Register" onPress={() => navigation.navigate('Register')} />
 			</ImageBackground>
 		</SafeAreaView>
 	)

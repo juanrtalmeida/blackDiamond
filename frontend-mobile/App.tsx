@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useEffect, useState, useRef } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import * as Splash from 'expo-splash-screen'
 import { SafeAreaView, StyleSheet, View, Platform, StatusBar, Image } from 'react-native'
 import { colors } from './src/assets/styles/colors'
 import { TabRouter } from './src/routes/router'
@@ -21,7 +20,6 @@ export default function App() {
 
 	useEffect(() => {
 		async function loadStorageData() {
-			await Splash.hideAsync()
 			try {
 				const isFirstTimeLocal = await AsyncStorage.getItem('firstTime')
 				const token = await AsyncStorage.getItem('token')

@@ -52,6 +52,7 @@ export function Choose() {
 						style={{ paddingLeft: 10 }}
 					/>
 					<TextInput
+            
 						cursorColor={colors.secondary}
 						selectionColor={colors.secondary}
 						style={{ width: '90%', paddingVertical: 10, paddingLeft: 10, fontFamily: TextConst.montserratMedium }}

@@ -3,13 +3,15 @@ import { ImageBackground, StyleSheet, TextInput, SafeAreaView, View, Dimensions,
 import { colors } from '../../assets/styles/colors'
 import { text as TextConst } from '../../assets/styles/text'
 import background from '../../assets/images/register.jpg'
-import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import DatePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import { useState } from 'react'
 import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes'
 import { TextInputChangeEventData } from 'react-native/Libraries/Components/TextInput/TextInput'
+import { Platform } from 'react-native/Libraries/Utilities/Platform'
 
 export function Register() {
 	const { height, width } = Dimensions.get('screen')
+	const [show, setShow] = useState(false)
 	const [form, setForm] = useState({
 		name: '',
 		email: '',
@@ -103,14 +105,21 @@ export function Register() {
 					<FontAwesome name="lock" size={24} color={colors.quaternary} style={{ paddingLeft: 10 }} />
 					<Pressable
 						style={{ width: '90%', paddingVertical: 15, paddingLeft: 10 }}
-						onPress={() =>
+						onPress={() => {
+							if (Platform.OS === 'ios') {
+								setShow(true)
+								return
+							}
 							DateTimePickerAndroid.open({
 								value: form.birthDate,
 								mode: 'date',
 								onChange: handledateChange
 							})
-						}
+						}}
 					>
+						{show && Platform.OS === 'ios' ? (
+							<DatePicker mode="date" value={form.birthDate} onChange={handledateChange} />
+						) : null}
 						<Text
 							style={{
 								fontFamily: TextConst.montserratMedium,

@@ -10,7 +10,7 @@ import { Slider } from './src/components/slider/slider'
 import { FirstTimeUserContext } from './src/contexts/first_time'
 import { UserProvider } from './src/contexts/User/UserProvider'
 import { TokenContext } from './src/contexts/token'
-import { LoginOrRegisterRoute } from './src/routes/login/login'
+import { LoginOrRegisterRoute } from './src/routes/login/login_or_register'
 import Lottie from 'lottie-react-native'
 
 export default function App() {

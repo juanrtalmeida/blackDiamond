@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
 		fontFamily: TextConst.montserratBold
 	},
 	button: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		minWidth: 100,
 		backgroundColor: colors.secondary,
 		borderRadius: 6,
 		flexDirection: 'row',

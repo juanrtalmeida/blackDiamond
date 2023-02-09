@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { colors } from '../../assets/styles/colors'
 import { RootStackParamList } from './login_or_register'
-import { ImageBackground, View, TextInput, Text, StyleSheet } from 'react-native'
+import { ImageBackground, View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import background from '../../assets/images/login-background.png'
 import { Button } from '../../components/Button/button'
 import { text as TextConst } from '../../assets/styles/text'
@@ -52,7 +52,6 @@ export function Choose() {
 						style={{ paddingLeft: 10 }}
 					/>
 					<TextInput
-            
 						cursorColor={colors.secondary}
 						selectionColor={colors.secondary}
 						style={{ width: '90%', paddingVertical: 10, paddingLeft: 10, fontFamily: TextConst.montserratMedium }}
@@ -69,20 +68,13 @@ export function Choose() {
 						placeholder="Senha"
 					/>
 				</View>
-				<Button
-					style={{ marginVertical: 30, backgroundColor: colors.secondary }}
-					title="Login"
-					onPress={() => navigation.navigate('Login')}
-				/>
-				<Text style={{ fontFamily: TextConst.montserratMedium, color: 'white' }}>
-					Ainda nao tem cadastro?{' '}
-					<Text
-						onPress={() => navigation.navigate('Register')}
-						style={{ fontFamily: TextConst.montserratBold, color: colors.secondary }}
-					>
-						Crie sua conta
-					</Text>
-				</Text>
+				<Button style={{ marginVertical: 30, backgroundColor: colors.secondary }} title="Login" />
+				<View style={{ flexDirection: 'row' }}>
+					<Text style={{ fontFamily: TextConst.montserratMedium, color: 'white' }}>Ainda nao tem cadastro? </Text>
+					<TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Register')}>
+						<Text style={{ fontFamily: TextConst.montserratBold, color: colors.secondary }}>Crie sua conta</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	)

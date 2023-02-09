@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native'
 import type { ImageSourcePropType } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { colors } from '../../assets/styles/colors'
@@ -25,7 +25,8 @@ export function SlideItem({
 			<Text style={styles.text}>{title}</Text>
 			<Text style={styles.subtitle}>{subtitle}</Text>
 			{isLast ? (
-				<Pressable
+				<TouchableHighlight
+					underlayColor={colors.secondary + '95'}
 					onPress={async () => {
 						await AsyncStorage.setItem('firstTime', 'false')
 						setIsFirstTime(false)
@@ -40,9 +41,11 @@ export function SlideItem({
 						paddingVertical: 10
 					}}
 				>
-					<Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold' }}>Começar</Text>
-					<Feather name="arrow-right" size={24} color="black" style={{ marginLeft: 10 }} />
-				</Pressable>
+					<>
+						<Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold' }}>Começar</Text>
+						<Feather name="arrow-right" size={24} color="black" style={{ marginLeft: 10 }} />
+					</>
+				</TouchableHighlight>
 			) : null}
 		</View>
 	)

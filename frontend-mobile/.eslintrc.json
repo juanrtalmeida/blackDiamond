@@ -35,7 +35,6 @@
 		"no-var": "error",
 		"no-unreachable": "error",
 		"no-use-before-define": "off",
-		"camelcase": "error",
 		"dot-notation": "error",
 		"no-empty": "error",
 		"prefer-const": "error",

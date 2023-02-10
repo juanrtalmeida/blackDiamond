@@ -18,7 +18,7 @@ defmodule Backend.Repo.Migrations.CreateUsers do
       add :adress_complement, :string
       add :contact, :string
       add :emergency_contact, :string
-      add :sex_orientation, :integer
+      add :sex_orientation, :string
       add :zip_code, :string
       add :birth_date, :date
       add :active, :boolean

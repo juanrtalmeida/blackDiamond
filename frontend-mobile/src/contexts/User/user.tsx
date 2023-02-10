@@ -1,26 +1,8 @@
 /* eslint-disable camelcase */
 import { createContext } from 'react'
+import { UserInfoApiReturn } from '../../hooks/types/user_infos'
 
-type UserType = {
-	adress: string | null
-	adress_number: string | null
-	birth_date: string | null
-	checkins: []
-	classes: []
-	contact: null | string
-	cpf: null | string
-	email: string
-	emergency_contact: string | null
-	expire_date_end: string | null
-	expire_date_start: string | null
-	id: string
-	monthly_payment: []
-	name: string
-	privileges: string
-	rg: string | null
-	zip_code: string | null
-}
-interface UserContextType extends UserType {
+interface UserContextType extends UserInfoApiReturn {
 	isLogged: boolean
 	token: string
 }
@@ -44,6 +26,7 @@ export const USER_INITIAL_CONTEXT: UserContextType = {
 	monthly_payment: [],
 	privileges: '',
 	rg: '',
-	zip_code: ''
+	zip_code: '',
+	sex_orientation: ''
 }
 export const UserContext = createContext<UserContextType>(USER_INITIAL_CONTEXT)

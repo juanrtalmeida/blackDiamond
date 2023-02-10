@@ -1,25 +1,32 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { Button, Text, View } from 'react-native'
+import { useContext } from 'react'
+import { Button, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { colors } from '../../assets/styles/colors'
+import { TokenContext } from '../../contexts/token'
 import { useAuth } from '../../hooks/useAuth/useAuth'
 import { RootStackParamList } from '../router'
 
 export function Home() {
-	const { email } = useAuth()
+	const { email, name, sex_orientation } = useAuth()
+	const { setHasToken } = useContext(TokenContext)
 	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+	async function handleRemoveToken() {
+		await AsyncStorage.removeItem('token')
+		setHasToken(false)
+	}
 	return (
-		<View
+		<SafeAreaView
 			style={{
 				alignItems: 'center',
 				backgroundColor: colors.quaternary,
-				flex: 1,
-				justifyContent: 'center'
+				flex: 1
 			}}
 		>
-			<Button title="dfasfs" onPress={() => AsyncStorage.removeItem('token')}></Button>
-			<Text>{email}</Text>
-		</View>
+			<Button title="dfasfs" onPress={handleRemoveToken}></Button>
+			<Text>{sex_orientation}</Text>
+		</SafeAreaView>
 	)
 }

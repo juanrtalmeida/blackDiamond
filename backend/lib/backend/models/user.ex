@@ -11,11 +11,7 @@ defmodule Backend.Models.User do
     :email,
     :name,
     :cpf,
-    :rg,
-    :adress,
-    :adress_number,
     :contact,
-    :emergency_contact,
     :zip_code,
     :birth_date
   ]
@@ -40,8 +36,7 @@ defmodule Backend.Models.User do
     field :emergency_contact, :string
     has_many :month_payments, MonthPayment
 
-    field :sex_orientation, Ecto.Enum,
-      values: [:non_binary, :cis_man, :cis_woman, :trans_man, :trans_woman]
+    field :sex_orientation, :string
 
     field :zip_code, :string
     field :birth_date, :date
@@ -81,7 +76,7 @@ defmodule Backend.Models.User do
 
   def changeset_create(params) do
     %__MODULE__{}
-    |> cast(params, @required_params_user_creation)
+    |> cast(params, @required_params_user_creation ++ [:sex_orientation])
     |> handle_hash()
     |> validate_required(@required_params_user_creation)
     |> put_change(:privilages, :student)

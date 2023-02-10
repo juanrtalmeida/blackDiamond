@@ -11,6 +11,7 @@ defmodule BackendWeb.UsersView do
   def render("infos.json", %{user: user}),
     do: %{
       email: user.email,
+      sex_orientation: user.sex_orientation,
       name: user.name,
       birth_date: user.birth_date,
       id: user.id,

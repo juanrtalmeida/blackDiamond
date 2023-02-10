@@ -20,45 +20,81 @@ import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventType
 import { TextInputChangeEventData } from 'react-native/Libraries/Components/TextInput/TextInput'
 import { formatWithMask } from 'react-native-mask-input'
 import { Button } from '../../components/Button/button'
+import { useApi } from '../../hooks/useApi'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from './login_or_register'
 
 export function Register() {
+	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 	const { height, width } = Dimensions.get('screen')
 	const [show, setShow] = useState(false)
 	const [open, setOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 	const [value, setValue] = useState(null)
 	const [items, setItems] = useState<ItemType<string>[]>([
-		{ label: 'Homem', value: 'man' },
-		{ label: 'Mulher', value: 'Woman' }
+		{ label: 'Homem', value: 'homem' },
+		{ label: 'Mulher', value: 'mulher' }
 	])
 	const [form, setForm] = useState({
 		name: '',
 		email: '',
 		password: '',
-		birthDate: new Date(),
-		cep: '',
+		birth_date: new Date(),
+		zip_code: '',
 		cpf: '',
-		rg: '',
-		phone: '',
-		address: '',
-		number: '',
 		complement: '',
-		neighborhood: '',
-		city: '',
 		birthDateString: '',
 		maskedCpf: '',
-		maskedCep: ''
+		maskedCep: '',
+		contact: '',
+		maskedContact: '',
+		sex_orientation: ''
 	})
 
+	async function handleRegister() {
+		setIsLoading(true)
+		try {
+			const fasdf = await useApi().register({
+				birth_date: form.birthDateString,
+				zip_code: form.zip_code,
+				cpf: form.cpf,
+				contact: form.contact,
+				email: form.email,
+				name: form.name,
+				password: form.password,
+				sex_orientation: form.sex_orientation
+			})
+			setIsLoading(false)
+			navigation.navigate('Choose')
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
+		}
+	}
+
+	const isFormValid = () => {
+		return (
+			form.name.length > 3 &&
+			/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email) &&
+			form.password.length > 6 &&
+			form.birth_date &&
+			form.zip_code.length === 8 &&
+			form.contact.length === 11 &&
+			form.cpf.length === 11
+		)
+	}
 	function handleChange(e: NativeSyntheticEvent<TextInputChangeEventData>, field: string) {
 		setForm({ ...form, [field]: e.nativeEvent.text })
 	}
+	console.log(isFormValid())
 
 	function handledateChange(e: DateTimePickerEvent) {
 		const date = new Date(e.nativeEvent.timestamp!)
 		setForm({
 			...form,
-			birthDate: date,
-			birthDateString: date.getFullYear() + '/' + date.getDate() + '/' + date.getMonth()
+			birth_date: date,
+			birthDateString: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 		})
 	}
 	return (
@@ -109,7 +145,7 @@ export function Register() {
 									text: e.nativeEvent.text,
 									mask: [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]
 								})
-								setForm((prevForm) => ({ ...prevForm, cep: unmasked, maskedCep: masked }))
+								setForm((prevForm) => ({ ...prevForm, zip_code: unmasked, maskedCep: masked }))
 							}}
 							cursorColor={colors.secondary}
 							style={{ width: '78%', paddingVertical: 10, paddingLeft: 7, fontFamily: TextConst.montserratMedium }}
@@ -161,7 +197,7 @@ export function Register() {
 									return
 								}
 								DateTimePickerAndroid.open({
-									value: form.birthDate,
+									value: form.birth_date,
 									mode: 'date',
 									onChange: handledateChange,
 									maximumDate: new Date('01/01/2005'),
@@ -170,7 +206,7 @@ export function Register() {
 							}}
 						>
 							{show && Platform.OS === 'ios' ? (
-								<DatePicker mode="date" value={form.birthDate} onChange={handledateChange} />
+								<DatePicker mode="date" value={form.birth_date} onChange={handledateChange} />
 							) : null}
 							<Text
 								style={{
@@ -188,6 +224,7 @@ export function Register() {
 					<View style={styles.inputViewHalf}>
 						<MaterialIcons name="date-range" size={24} color={colors.quaternary} style={{ paddingLeft: 7 }} />
 						<DropdownPricker
+							onChangeValue={(item) => setForm((prev) => ({ ...prev, sex_orientation: item! }))}
 							labelStyle={{ fontFamily: TextConst.montserratMedium, fontSize: 14, color: colors.quaternary }}
 							style={{ backgroundColor: colors.quinary, borderWidth: 0 }}
 							placeholderStyle={{
@@ -212,8 +249,32 @@ export function Register() {
 					</View>
 				</View>
 				<View style={styles.inputView}>
+					<FontAwesome name="mobile-phone" size={20} color={colors.quaternary} style={{ paddingLeft: 10 }} />
+					<TextInput
+						value={form.maskedContact}
+						onChange={(e) => {
+							const { unmasked, masked } = formatWithMask({
+								text: e.nativeEvent.text,
+								mask: ['(', /\d/, /\d/, ')', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
+							})
+							setForm((prevForm) => ({ ...prevForm, contact: unmasked, maskedContact: masked }))
+						}}
+						cursorColor={colors.secondary}
+						style={{
+							width: '78%',
+							paddingVertical: 10,
+							paddingLeft: 7,
+							fontFamily: TextConst.montserratMedium
+						}}
+						maxLength={13}
+						placeholder="Telefone para contato"
+						keyboardType="numeric"
+					/>
+				</View>
+				<View style={styles.inputView}>
 					<FontAwesome name="lock" size={24} color={colors.quaternary} style={{ paddingLeft: 10 }} />
 					<TextInput
+						onChange={(e) => handleChange(e, 'password')}
 						cursorColor={colors.secondary}
 						style={{ width: '90%', paddingVertical: 10, paddingLeft: 7, fontFamily: TextConst.montserratMedium }}
 						autoComplete="password"
@@ -221,7 +282,13 @@ export function Register() {
 						secureTextEntry
 					/>
 				</View>
-				<Button style={{ marginVertical: 15, paddingVertical: 15 }} title="Cadastrar" />
+				<Button
+					onPress={() => handleRegister()}
+					isLoading={isLoading}
+					isDisabled={!isFormValid()}
+					style={{ marginVertical: 15, paddingVertical: 15 }}
+					title="Cadastrar"
+				/>
 			</View>
 		</SafeAreaView>
 	)

@@ -17,6 +17,7 @@ export function Choose() {
 	const [form, setForm] = useState({ email: '', password: '' })
 	const [isLoading, setIsLoading] = useState(false)
 	const { setHasToken } = useContext(TokenContext)
+
 	async function handleLogin() {
 		setIsLoading(true)
 		try {
@@ -30,10 +31,11 @@ export function Choose() {
 			console.log(err)
 		}
 	}
+
 	const isValidForm = () => {
 		return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email) && form.password.length > 6
 	}
-	console.log(isValidForm())
+
 	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 	return (
 		<View

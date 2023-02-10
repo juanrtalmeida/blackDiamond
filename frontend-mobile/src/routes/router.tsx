@@ -83,7 +83,9 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 							flex: 1,
 							flexDirection: 'column',
 							justifyContent: 'center',
-							margin: 10
+							padding: 10,
+							borderTopWidth: 2,
+							borderTopColor: isFocused ? colors.secondary : 'transparent'
 						}}
 					>
 						{options.tabBarIcon ? options.tabBarIcon({ color: '', focused: isFocused, size: 0 }) : null}
@@ -133,6 +135,34 @@ export function TabRouter() {
 					}
 				}}
 				name="Settings"
+				component={SettingsScreen}
+			/>
+			<Tab.Screen
+				options={{
+					headerShown: false,
+					tabBarIcon: ({ focused }) => {
+						return (
+							<View style={{ height: 15, width: 15 }}>
+								<Feather name="settings" size={15} color={focused ? colors.secondary : colors.quinary} />
+							</View>
+						)
+					}
+				}}
+				name="Classes"
+				component={SettingsScreen}
+			/>
+			<Tab.Screen
+				options={{
+					headerShown: false,
+					tabBarIcon: ({ focused }) => {
+						return (
+							<View style={{ height: 15, width: 15 }}>
+								<Feather name="settings" size={15} color={focused ? colors.secondary : colors.quinary} />
+							</View>
+						)
+					}
+				}}
+				name="Checkin"
 				component={SettingsScreen}
 			/>
 		</Tab.Navigator>

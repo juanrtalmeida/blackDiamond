@@ -5,6 +5,8 @@ import { UserInfoApiReturn } from '../../hooks/types/user_infos'
 interface UserContextType extends UserInfoApiReturn {
 	isLogged: boolean
 	token: string
+	isLoading: boolean
+	refresh: () => void
 }
 
 export const USER_INITIAL_CONTEXT: UserContextType = {
@@ -27,6 +29,9 @@ export const USER_INITIAL_CONTEXT: UserContextType = {
 	privileges: '',
 	rg: '',
 	zip_code: '',
-	sex_orientation: ''
+	sex_orientation: '',
+	isLoading: false,
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	refresh: () => {}
 }
 export const UserContext = createContext<UserContextType>(USER_INITIAL_CONTEXT)

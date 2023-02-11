@@ -17,6 +17,7 @@ export default function App() {
 	const [hasToken, setHasToken] = useState(false)
 	const [isLoadingApp, setIsLoadingApp] = useState(true)
 	const [refreshing, setRefreshing] = useState(false)
+	const [refreshProviders, setRefreshProviders] = useState(false)
 	const lottieRef = useRef<Lottie>(null)
 
 	useEffect(() => {
@@ -27,7 +28,7 @@ export default function App() {
 				if (token) {
 					setHasToken(true)
 				}
-				if (isFirstTimeLocal === 'true') {
+				if (isFirstTimeLocal === 'false') {
 					setIsFirstTime(false)
 				}
 			} catch (err) {
@@ -38,6 +39,7 @@ export default function App() {
 	}, [])
 
 	const onRefresh = useCallback(() => {
+		setRefreshProviders((prev) => !prev)
 		setRefreshing(true)
 		setTimeout(() => {
 			setRefreshing(false)
@@ -121,12 +123,12 @@ export default function App() {
 				refreshing={refreshing}
 				onRefresh={onRefresh}
 			>
-				<UserProvider>
+				<UserProvider refresh={refreshProviders}>
 					<View style={styles.container}>
 						<NavigationContainer
 							theme={{
 								colors: {
-									background: colors.quaternary,
+									background: colors.primary,
 									border: '',
 									card: '',
 									notification: '',

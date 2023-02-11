@@ -1,3 +1,4 @@
+import { ShopInfosApiReturn } from './types/shop_infos'
 import { UserInfoApiReturn } from './types/user_infos'
 import { userRegister } from './types/user_register'
 import { useAxios } from './useAxios'
@@ -26,5 +27,10 @@ export function useApi() {
 			return { error: e }
 		}
 	}
-	return { login, register, getUserInfos }
+
+	async function shop(): Promise<ShopInfosApiReturn> {
+		const { data } = await getData('/shop')
+		return data
+	}
+	return { login, register, getUserInfos, shop }
 }

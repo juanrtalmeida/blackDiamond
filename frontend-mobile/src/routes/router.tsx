@@ -2,8 +2,9 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { colors } from '../assets/styles/colors'
-import { Feather, Entypo } from '@expo/vector-icons'
+import { Feather, Entypo, AntDesign } from '@expo/vector-icons'
 import { Home } from './home/home'
+import { Shop } from './shop/shop'
 
 export type RootStackParamList = {
 	HomeOne: undefined
@@ -35,11 +36,13 @@ function HomeScreen() {
 	)
 }
 
-function SettingsScreen() {
+function ShopScreen() {
+	const stack = createStackNavigator<RootStackParamList>()
 	return (
-		<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-			<Text>Settings!</Text>
-		</View>
+		<stack.Navigator>
+			<stack.Screen options={{ headerShown: false }} name="HomeOne" component={Shop} />
+			<stack.Screen options={{ headerShown: false }} name="HomeTwo" component={HomeScreenTwo} />
+		</stack.Navigator>
 	)
 }
 
@@ -108,7 +111,7 @@ const Tab = createBottomTabNavigator()
 
 export function TabRouter() {
 	return (
-		<Tab.Navigator tabBar={(opts) => <MyTabBar {...opts} />}>
+		<Tab.Navigator screenOptions={{ unmountOnBlur: true }} tabBar={(opts) => <MyTabBar {...opts} />}>
 			<Tab.Screen
 				options={{
 					headerShown: false,
@@ -135,7 +138,7 @@ export function TabRouter() {
 					}
 				}}
 				name="Settings"
-				component={SettingsScreen}
+				component={ShopScreen}
 			/>
 			<Tab.Screen
 				options={{
@@ -143,13 +146,13 @@ export function TabRouter() {
 					tabBarIcon: ({ focused }) => {
 						return (
 							<View style={{ height: 15, width: 15 }}>
-								<Feather name="settings" size={15} color={focused ? colors.secondary : colors.quinary} />
+								<AntDesign name="shoppingcart" size={15} color={focused ? colors.secondary : colors.quinary} />
 							</View>
 						)
 					}
 				}}
-				name="Classes"
-				component={SettingsScreen}
+				name="Loja"
+				component={ShopScreen}
 			/>
 			<Tab.Screen
 				options={{
@@ -163,7 +166,7 @@ export function TabRouter() {
 					}
 				}}
 				name="Checkin"
-				component={SettingsScreen}
+				component={ShopScreen}
 			/>
 		</Tab.Navigator>
 	)

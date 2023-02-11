@@ -31,7 +31,6 @@
 		"react/no-children-prop": "error",
 		"react/jsx-props-no-spreading": ["off"],
 		"react/no-unescaped-entities": ["off"],
-		"no-unused-vars": "error",
 		"no-var": "error",
 		"no-unreachable": "error",
 		"no-use-before-define": "off",

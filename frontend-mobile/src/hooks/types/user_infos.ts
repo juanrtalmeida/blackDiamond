@@ -2,7 +2,7 @@ export type UserInfoApiReturn = {
 	adress: string | null
 	adress_number: string | null
 	birth_date: string | null
-	checkins: []
+	checkins: checkinType[]
 	classes: []
 	contact: null | string
 	cpf: null | string
@@ -17,4 +17,9 @@ export type UserInfoApiReturn = {
 	rg: string | null
 	zip_code: string | null
 	sex_orientation: string | null
+}
+
+type checkinType = {
+	type: string
+	date: string
 }

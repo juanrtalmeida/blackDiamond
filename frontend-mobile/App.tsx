@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { SafeAreaView, StyleSheet, View, Platform, StatusBar, Image, RefreshControl } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Platform, StatusBar, Image } from 'react-native'
 import { colors } from './src/assets/styles/colors'
 import { TabRouter } from './src/routes/router'
 import { Slider } from './src/components/slider/slider'
@@ -16,8 +16,6 @@ export default function App() {
 	const [isFirstTime, setIsFirstTime] = useState(true)
 	const [hasToken, setHasToken] = useState(false)
 	const [isLoadingApp, setIsLoadingApp] = useState(true)
-	const [refreshing, setRefreshing] = useState(false)
-	const [refreshProviders, setRefreshProviders] = useState(false)
 	const lottieRef = useRef<Lottie>(null)
 
 	useEffect(() => {
@@ -36,14 +34,6 @@ export default function App() {
 			}
 		}
 		loadStorageData()
-	}, [])
-
-	const onRefresh = useCallback(() => {
-		setRefreshProviders((prev) => !prev)
-		setRefreshing(true)
-		setTimeout(() => {
-			setRefreshing(false)
-		}, 2000)
 	}, [])
 
 	const [fontsLoaded] = useFonts({
@@ -115,34 +105,25 @@ export default function App() {
 
 	return (
 		<TokenContext.Provider value={{ hasToken, setHasToken }}>
-			<RefreshControl
-				style={{
-					backgroundColor: colors.primary,
-					flex: 1
-				}}
-				refreshing={refreshing}
-				onRefresh={onRefresh}
-			>
-				<UserProvider refresh={refreshProviders}>
-					<View style={styles.container}>
-						<NavigationContainer
-							theme={{
-								colors: {
-									background: colors.primary,
-									border: '',
-									card: '',
-									notification: '',
-									primary: '',
-									text: ''
-								},
-								dark: true
-							}}
-						>
-							<TabRouter />
-						</NavigationContainer>
-					</View>
-				</UserProvider>
-			</RefreshControl>
+			<UserProvider>
+				<View style={styles.container}>
+					<NavigationContainer
+						theme={{
+							colors: {
+								background: colors.primary,
+								border: '',
+								card: '',
+								notification: '',
+								primary: '',
+								text: ''
+							},
+							dark: true
+						}}
+					>
+						<TabRouter />
+					</NavigationContainer>
+				</View>
+			</UserProvider>
 		</TokenContext.Provider>
 	)
 }

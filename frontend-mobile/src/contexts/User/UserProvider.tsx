@@ -4,7 +4,7 @@ import { USER_INITIAL_CONTEXT, UserContext } from './user'
 import { useApi } from '../../hooks/useApi'
 import { TokenContext } from '../token'
 
-export function UserProvider({ children, refresh }: { children: ReactNode; refresh: boolean }) {
+export function UserProvider({ children }: { children: ReactNode }) {
 	const [user, setUser] = useState(USER_INITIAL_CONTEXT)
 	useEffect(() => {
 		async function loadStorageData() {
@@ -27,6 +27,6 @@ export function UserProvider({ children, refresh }: { children: ReactNode; refre
 		}
 
 		loadStorageData()
-	}, [refresh])
+	}, [])
 	return <UserContext.Provider value={user}>{children}</UserContext.Provider>
 }

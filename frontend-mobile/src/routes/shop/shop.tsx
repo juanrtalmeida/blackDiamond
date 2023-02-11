@@ -29,6 +29,7 @@ export function Shop() {
 		}
 	}
 	useEffect(() => {
+		console.log('asidjisj')
 		getProducts()
 	}, [])
 

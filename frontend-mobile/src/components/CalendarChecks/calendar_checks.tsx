@@ -1,28 +1,29 @@
 import { View } from 'react-native'
 import { colors } from '../../assets/styles/colors'
 
-export function CalendarChecks() {
+export function CalendarChecks({ dates }: { dates: string[] }) {
 	function getDaysInCurrentMonth() {
 		const date = new Date()
 
 		return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 	}
 
+	const datesInDate = dates.map((date) => new Date(date).getDate())
 	return (
-		<View style={{ paddingHorizontal: 10, flexDirection: 'row', flexWrap: 'wrap' }}>
-			{new Array(getDaysInCurrentMonth()).fill('').map((_, index) => {
-				const value = Math.round(Math.random())
+		<View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+			{new Array(29).fill('').map((_, index) => {
+				const isCheckedIn = datesInDate.includes(index + 1)
+
 				return (
 					<View
 						key={index}
 						style={{
-							margin: 5,
+							marginHorizontal: 3,
+							marginVertical: 2,
 							width: 20,
 							borderRadius: 6,
 							height: 20,
-							backgroundColor: value ? colors.secondary : colors.quinary,
-							position: 'relative',
-							zIndex: 1
+							backgroundColor: isCheckedIn ? colors.secondary : colors.quinary
 						}}
 					/>
 				)

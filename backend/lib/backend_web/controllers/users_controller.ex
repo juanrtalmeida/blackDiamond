@@ -48,6 +48,7 @@ defmodule BackendWeb.UsersController do
   def infos(conn, _) do
     email = conn.assigns[:user_info].email
     user = Infos.infos(email) |> Repo.preload([:classes, [:checkins, checkins: [:class]]])
+    IO.inspect(user)
 
     conn
     |> put_status(:accepted)

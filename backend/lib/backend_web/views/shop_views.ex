@@ -10,14 +10,15 @@ defmodule BackendWeb.ShopView do
 
   def render("get_products.json", %{products: item}) do
     %{
-      item:
+      items:
         Enum.map(item, fn item ->
           %{
             id: item.id,
             name: item.name,
             description: item.description,
             price: item.price,
-            image: item.image
+            image: item.image,
+            quantity: item.stock
           }
         end)
     }

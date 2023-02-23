@@ -19,8 +19,11 @@ defmodule BackendWeb.NewsController do
   end
 
   def get_photo(conn, params) do
+    IO.inspect(params["path"])
+
     with {:ok, binary} <- File.read('priv/static/images/#{params["photo_name"]}') do
       extension = Path.extname(params["photo_name"])
+      Io
 
       conn
       |> put_resp_header("content-type", "image/#{extension}")

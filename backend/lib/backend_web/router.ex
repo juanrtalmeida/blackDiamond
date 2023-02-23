@@ -26,7 +26,6 @@ defmodule BackendWeb.Router do
     post "/create-professor", ProfessorController, :create
     post "/create-martial-art", ManagementController, :create
 
-    get "/get-photo/:photo_name", NewsController, :get_photo
     # required params
     # {
     # "user_id":"xxxxxx",
@@ -116,7 +115,7 @@ defmodule BackendWeb.Router do
 
     post "/login", UsersController, :login
     get "/news", NewsController, :get_all
-
+    get "/get-photo/:photo_name", NewsController, :get_photo
     get "/martial-arts", ManagementController, :show
     get "/prices", ManagementController, :show_prices
     get "/shop", ShopController, :get_products

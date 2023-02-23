@@ -17,8 +17,8 @@ defmodule Backend.Helpers.PaymentHandler do
       with {:ok, payment} <-
              MonthPayment.create_changeset(%{
                user_id: id,
-               month: Integer.to_string(date.month),
-               year: Integer.to_string(date.year),
+               month: date.month,
+               year: date.year,
                paid: false
              })
              |> Repo.insert() do

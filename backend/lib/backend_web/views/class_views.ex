@@ -7,8 +7,12 @@ defmodule BackendWeb.ClassView do
     %{
       id: class.id,
       description: class.description,
-      responsable: class.responsable.name,
-      responsable_id: class.responsable.id,
+      responsable: %{
+        id: class.responsable.id,
+        name: class.responsable.name,
+        email: class.responsable.email,
+        contact: class.responsable.contact
+      },
       starting_hour: class.starting_hour,
       type: class.type,
       warnings:
@@ -55,8 +59,12 @@ defmodule BackendWeb.ClassView do
       %{
         id: class.id,
         description: class.description,
-        responsable: class.responsable.name,
-        responsable_id: class.responsable.id,
+        responsable: %{
+          id: class.responsable.id,
+          name: class.responsable.name,
+          email: class.responsable.email,
+          contact: class.responsable.contact
+        },
         starting_hour: class.starting_hour,
         type: class.type,
         warnings:

@@ -15,7 +15,7 @@ defmodule Backend.Models.ClassStudent do
 
   def create_changeset(params) do
     %__MODULE__{}
-    |> cast(params, [:user_id, :user_id])
-    |> validate_required([:student_id, :class_id])
+    |> cast(params, [:user_id, :class_id])
+    |> validate_required([:user_id, :class_id])
   end
 end
